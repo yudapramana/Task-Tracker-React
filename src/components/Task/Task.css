@@ -1,0 +1,50 @@
+.red {
+    color: red;
+}
+
+.yellow {
+    color: yellow;
+}
+
+.green {
+    color: green;
+}
+
+.grey {
+    color: grey;
+}
+
+.task {
+    background: #f4f4f4;
+    margin: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.task.reminder {
+    border-left: 5px solid green;
+}
+
+.task h3 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.action {
+    cursor: pointer;
+    padding-left: 5px;
+}
+
+.btn-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.text-breakthrough {
+    -webkit-text-decoration-line: line-through;
+    /* Safari */
+    text-decoration-line: line-through;
+    color: grey
+}

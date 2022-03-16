@@ -1,25 +1,58 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { useState } from 'react';
+import React from 'react';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
+import Home from './views/Home/Home';
+import About from './views/About/About';
+import { 
+  Routes,
+  Route
+ } from "react-router-dom";
+
+const App = () => {
+
+    const [getShowAddTask, setShowAddTask] = useState(false);
+    const [editMode, setEditMode] = useState(false);
+
+    const toggleAddTask = () => {
+      setShowAddTask(!getShowAddTask);
+      // console.log(getShowAddTask);
+    } 
+
+    const handleBtnBehavior = (task) => {
+      if(task.id){
+        setShowAddTask(true);
+        setEditMode(true);
+      } else {
+        setShowAddTask(false);
+        setEditMode(false);
+      }
+
+      // console.log('editMode')
+      // console.log(editMode)
+    }
+
+    const eventEditMode = (editMode) => {
+      setEditMode(editMode);
+    }
+
+    return (
+      <div className="container">
+        <Header 
+          title="Task Tracker R"  
+          buttonAddOnClick={toggleAddTask}
+          showAddTask={getShowAddTask}
+          editMode={editMode}
+        />
+        <Routes>
+          <Route path="/" element={<Home getShowAddTask={getShowAddTask} changeBtnBehavior={handleBtnBehavior} eventHideForm={toggleAddTask} setEditMode={eventEditMode} />} />
+          <Route path="about" element={<About />} />
+        </Routes>
+        <Footer />
+      </div>
+    );
 }
 
 export default App;
