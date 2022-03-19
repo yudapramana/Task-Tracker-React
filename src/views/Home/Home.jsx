@@ -1,11 +1,15 @@
 import './Home.css'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Tasks from '../../components/Tasks/Tasks';
 import AddTask from '../../components/AddTask/AddTask';
-import { getItem, getItems, setItem, deleteItem, updateItem } from '../../services/list';
+import { getItem, getItems, setItem, deleteItem, updateItem, login } from '../../services/list';
+import { UserContext } from '../../UserContext';
+import Login from '../../components/Login/Login';
 
 
 const Home = (props) => {
+
+    const { user, setUser } = useContext(UserContext);
 
     const [getTasks, setTasks] = useState([]);
     const [edit, setEdit] = useState({
@@ -18,26 +22,30 @@ const Home = (props) => {
     useEffect(() => {
 
         let mounted = true;
-        getItems().then(res => {
+        // getItems().then(res => {
+        //     if (mounted) {
+        //         setTasks(res);
+        //     }
+        // })
+
+        let userData = localStorage.getItem('user');
+        if (userData) {
             if (mounted) {
-                // console.log('res');
-                // console.log(res);
-                setTasks(res);
+            setUser(JSON.parse(userData));
             }
-        })
+        }
+
 
         return () => {
             mounted = false;
         }
-    }, [])
+    }, [setUser])
 
     const eventCreateTask = (task) => {
 
         setItem(task).then(res => {
             setTasks(getTasks.concat(res));
         })
-
-        // console.log(task);
     }
 
     const eventDeleteTask = (id) => {
@@ -80,13 +88,13 @@ const Home = (props) => {
             const updTask = { ...res, completed: !res.completed };
 
             updateItem(id, updTask).then(res => {
-                
+
                 setTasks(
                     getTasks
-                    .map(item => item.id === id ? updTask : item)
+                        .map(item => item.id === id ? updTask : item)
                     // .sort((a, b) => a.completed > b.completed ? 1 : -1)
                     // .sort((a, b) => (!a.completed === !b.completed && a.id < b.id) ? 1 : -1)
-                    );
+                );
             })
         })
     }
@@ -102,10 +110,40 @@ const Home = (props) => {
         props.setEditMode(false);
     }
 
+    const eventLogin = (userData) => {
+        console.log(userData);
+        login(userData).then(res => {
+
+            if(res.message) {
+                alert(res.message);
+            } else {
+                setUser(res);
+                localStorage.setItem("user", JSON.stringify(res));
+                localStorage.setItem("token", res.token);
+                getItems().then(res => {
+                    setTasks(res);
+                })    
+            }
+            
+        });
+    }
+
     return (
         <div>
-            {props.getShowAddTask ? <AddTask onCreateTask={eventCreateTask} onUpdateTask={eventUpdateTask} task={edit} eventHideForm={triggerHideForm} /> : null}
-            <Tasks tasks={getTasks} deleteTask={eventDeleteTask} editTask={eventEditTask} completeTask={eventCompleteTask} switchReminder={eventToggleReminder} />
+
+            {
+                !user ?
+                    <Login triggerLogin={eventLogin} /> : ''
+            }
+
+            {(user && props.getShowAddTask) ? <AddTask onCreateTask={eventCreateTask} onUpdateTask={eventUpdateTask} task={edit} eventHideForm={triggerHideForm} /> : null}
+            {
+                user ? (
+                    <Tasks tasks={getTasks} deleteTask={eventDeleteTask} editTask={eventEditTask} completeTask={eventCompleteTask} switchReminder={eventToggleReminder} />
+                ) : (
+                    null
+                )
+            }
         </div>
     );
 

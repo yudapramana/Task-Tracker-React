@@ -4,9 +4,6 @@ import { useEffect, useState } from 'react';
 
 const AddTask = (props) => {
 
-    console.log('task on AddTask');
-    console.log(props.task);
-
     const [getText, setText] = useState('');
     const [getDate, setDate] = useState('');
     const [getReminder, setReminder] = useState('');
