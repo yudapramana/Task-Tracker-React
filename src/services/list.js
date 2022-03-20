@@ -1,6 +1,6 @@
-const urlProd = 'http://localhost:3000/api'
+// const urlProd = 'http://localhost:3000/api'
 // const urlProd = 'https://cors-anywhere.herokuapp.com/https://api-techtruction.herokuapp.com/api'
-// const urlProd = 'https://api-techtruction.herokuapp.com/api'
+const urlProd = 'https://api-techtruction.herokuapp.com/api'
 
 export function getItems() {
     return fetch(`${urlProd}/tasks`, {
