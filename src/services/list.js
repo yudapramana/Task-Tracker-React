@@ -58,8 +58,19 @@ export function updateItem(id, data) {
 }
 
 export function login(user) {
-    console.log(user);
     return fetch(`${urlProd}/users/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user),
+        })
+        .then(data => data.json())
+}
+
+
+export function register(user) {
+    return fetch(`${urlProd}/users/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

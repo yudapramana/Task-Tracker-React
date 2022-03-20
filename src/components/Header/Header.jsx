@@ -2,7 +2,7 @@ import Button from '../Button/Button';
 import './Header.css'
 import { useLocation } from 'react-router-dom';
 import { useContext } from 'react';
-import { UserContext } from '../../UserContext';
+import { UserContext } from '../../contexts/UserContext';
 
 
 const Header = (props) => {

@@ -11,8 +11,6 @@ const Task = (props) => {
     }
 
     const triggerEdit = (task) => {
-        console.log('task on Task');
-        console.log(task);
         props.editTask(task);
     }
 

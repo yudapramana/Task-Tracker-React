@@ -15,6 +15,8 @@ const AddTask = (props) => {
     }
 
     useEffect(() => {
+        console.log('props.task on useeffect edit');
+        console.log(props.task);
         let data = props.task;
         if(props.task){
             setText(data.text);

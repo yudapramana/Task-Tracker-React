@@ -16,8 +16,6 @@ const Tasks = (props) => {
     }
 
     const handleEdit = (task) => {
-        console.log('task on Tasks');
-        console.log(task);
         props.editTask(task);
     }
 
